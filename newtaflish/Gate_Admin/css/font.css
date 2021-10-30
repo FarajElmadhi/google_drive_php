@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+  font-family: "faraj";
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/DroidKufi-Regular.eot');
+  src: url('fonts/DroidKufi-Regular.eot?#iefix') format('embedded-opentype');
+   src:    url('fonts/DroidKufi-Regular.woff2') format('x-woff2');
+    src:   url('fonts/DroidKufi-Regular.woff') format('woff');
+    src :  url('fonts/DroidKufi-Regular.ttf') format('truetype');
+}

@@ -4,8 +4,8 @@ require 'vendor/autoload.php';
 
 class GoogleClient
 {
- protected $client_id = '853699167301-gsckrb9td8h27h3dd2u8vjcdq2ob9olt.apps.googleusercontent.com';
-    protected $client_secret = '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';
+ protected $client_id = '358581589698-lt50hu0vaj1eq6o34si2duur7e9c915b.apps.googleusercontent.com';
+    protected $client_secret = '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';
     
     protected $scopes = array('https://www.googleapis.com/auth/drive',);
 

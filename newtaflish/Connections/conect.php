@@ -14,9 +14,9 @@ try {
     $connect = new PDO($dsn, $user, $pass, $option);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-@include 'UpdateViewClass.php';
-$cl= new UpdateViewClass();
-$cl->init($connect);
+// @include 'UpdateViewClass.php';
+// $cl= new UpdateViewClass();
+// $cl->init($connect);
 
 
 

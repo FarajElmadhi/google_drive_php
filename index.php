@@ -13,7 +13,11 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     $client->setAccessToken($_SESSION['access_token']);
     $drive_service = new Google_Service_Drive($client);
 
-    $files_list = $drive_service->files->listFiles(array('fields' => 'files(id, name, webViewLink, webContentLink, mimeType, size)','pageSize' => 1000));
+    $files_list = $drive_service->files->listFiles(array(
+      'q'=>"parents in '" . '1nqS_PxVS02PDD_8F6bzqtMsjyRhE24Yf' . "'",
+      'fields' => 'files(id, name, webViewLink, webContentLink, mimeType, size)',
+    'pageSize' => 1000,
+   ));
 
     $result = array();
 
@@ -22,13 +26,13 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     foreach ($files_list->getFiles() as $file) {
       if( $file->getMimeType()  != 'application/vnd.google-apps.folder'){
 
-      // if( $file->getMimeType()  != 'application/vnd.google-apps.folder'){
+      // if( $file->getMimeType()  == 'application/vnd.google-apps.folder'  ){
 
 // ----------< Rename File >------------//
     
       // $ex = explode('_', $file->getName());
       // if($ex[0] == 'Samfw.com'){ 
-      //    if($ex[1] != 'COMBINATION'){   
+      // //    if($ex[1] != 'COMBINATION'){   
       //    $newName = $ex[1] . '_' .$ex[2] . '_' .$ex[3];
 
       //       $dot =  explode('.', $newName);
@@ -36,7 +40,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
       //             $newName .=  '.zip';
                
       //       }
-      //    // echo $newName  . '<br>';
+      //    echo $newName  . '<br>';
       //    try {
       //       $fileNewName = new Google_Service_Drive_DriveFile($client);
       //       $fileNewName->setName($newName);
@@ -47,11 +51,11 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
       //       print "An error occurred: " . $e->getMessage();
       //       }
 
-      //    }
+      //    // }
       // }
 
 
-      //------------- GET ROM INFO --------//
+      //------------- INSERT TO TMP --------//
 
 // $ex = explode('_', $file->getName());
 //       if($ex[0] != 'Samfw.com'){ 
@@ -63,19 +67,21 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 //             $baseband = $dot[0];   
 //             $link =  $file->getWebContentLink();
      
-// // =========== INSERT TO DB ===========================//
-// //======================================================//
-// // $stmt = $connect->prepare(" SELECT * FROM samsung_device ORDER BY `Did` DESC");
-// // $stmt->execute();
-// // $stock = $stmt->fetchAll();
 
 
-
-// //=========================================================//
-
-
+// $stmt = $connect->prepare(" INSERT INTO tmp 
+// (model, baseband, region, link ) 
+// VALUES ( :zm, :zb, :zr, :zl)");
+// $stmt->execute(array(
+//     'zm' => $model,
+//      'zb' => $baseband,
+//      'zr' => $region,
+//      'zl' => $link,
+    
+//     ));
 //          }
 //       }
+// //=========================================================//
 
       array_push($result,[
          'id'=> $file->getId(),
@@ -94,19 +100,19 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 
     // change permissions
 
-    $permissions = new Google_Service_Drive_Permission(array(
-      'role' => 'reader',
-      'type' => 'anyone',
-   ));
+   //  $permissions = new Google_Service_Drive_Permission(array(
+   //    'role' => 'reader',
+   //    'type' => 'anyone',
+   // ));
  
-   try {
-      $r = $drive_service->permissions->create('1lzZEGPHuZc-3zbDWqalnqzIrJzPYs_Fb', $permissions);
-      print_r($r);
-   } catch (Exception $e) {
-      $r = $e->getMessage();
-      print_r($r);
+   // try {
+   //    $r = $drive_service->permissions->create('1lzZEGPHuZc-3zbDWqalnqzIrJzPYs_Fb', $permissions);
+   //    print_r($r);
+   // } catch (Exception $e) {
+   //    $r = $e->getMessage();
+   //    print_r($r);
 
-   }
+   // }
  
 } else {
     $redirect_uri = 'http://localhost/drive/oauth2callback.php';

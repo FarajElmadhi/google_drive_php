@@ -8,7 +8,7 @@ $stmt = $connect->prepare(" SELECT * FROM tmp WHERE done = 0 LIMIT 1 ");
 $stmt->execute();
 $tmp = $stmt->fetch();
 echo 'Begin ...............';
-header("Refresh:2; url=add.php?id=". $tmp['id']);
+header("Refresh:5; url=add.php?id=". $tmp['id']);
 
 }else{
     $stmt = $connect->prepare(" SELECT * FROM tmp WHERE id  = ? ");
@@ -92,7 +92,7 @@ $stmt->execute(array(
     $tmpo = $stmt->fetch();
     echo $tmpo['id'];
     header("Refresh:1; url=add.php?id=". $tmpo['id']);
-    
+    // header("Location: add.php?id=". $tmpo['id']);
 
   
 

@@ -14,7 +14,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     $drive_service = new Google_Service_Drive($client);
 
     $files_list = $drive_service->files->listFiles(array(
-      'q'=>"parents in '" . '1YKNN3YZxzCGBFh59CaNF3jMgVmhKIFcM' . "'",
+      'q'=>"parents in '" . '16Lwg1plKV-ngjsygfMm71xolbZjd72tW' . "'",
       'fields' => 'files(id, name, webViewLink, webContentLink, mimeType, size)',
     'pageSize' => 1000,
    ));
@@ -26,7 +26,17 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     foreach ($files_list->getFiles() as $file) {
       if( $file->getMimeType()  != 'application/vnd.google-apps.folder'){
 
-      // if( $file->getMimeType()  == 'application/vnd.google-apps.folder'  ){
+
+
+// //================= move file ================
+//     $fromFile = $drive_service->files->get($file->getId(), ["fields" => "id,parents"]);
+//     $fromFile = getParsedWritableFile($fromFile);
+//     $fromFile->setParents('16Lwg1plKV-ngjsygfMm71xolbZjd72tW');
+//     $drive_service->files->update($file->getId(), $fromFile, ['addParents' => '16Lwg1plKV-ngjsygfMm71xolbZjd72tW']);
+// //=========================================================================
+
+
+
 
 // ----------< Rename File >------------//
     
@@ -51,11 +61,41 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
       //       print "An error occurred: " . $e->getMessage();
       //       }
 
-      //    // }
+      
       // }
 
 
+
+
+
+
+// //================== copy and delete old   file===================
+// $f = new Google_Service_Drive_DriveFile();
+// $copyFile = $drive_service->files->copy($file->getId(), $f);
+// $deletFile = $drive_service->files->delete($file->getId());
+
+
+
+  //  //============================== change permissions
+
+  //   $permissions = new Google_Service_Drive_Permission(array(
+  //     'role' => 'reader',
+  //     'type' => 'anyone',
+  //  ));
+ 
+  //  try {
+  //     $r = $drive_service->permissions->create($file->getId(), $permissions);
+  //  } catch (Exception $e) {
+  //     $r = $e->getMessage();
+  //     print_r($r);
+
+  //  }
+
+
+
+
       //------------- INSERT TO TMP --------//
+
 
 // $ex = explode('_', $file->getName());
 //       if($ex[0] != 'Samfw.com'){ 
@@ -81,16 +121,16 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 //     ));
 //          }
 //       }
+
+
+
 // //=========================================================//
 
 
 
-// //================== copy and delete old   file===================
-// $f = new Google_Service_Drive_DriveFile();
-// $copyFile = $drive_service->files->copy($file->getId(), $f);
-// $deletFile = $drive_service->files->delete($file->getId());
 
-// //=================================================
+
+
 
 
       array_push($result,[
@@ -108,21 +148,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     echo '</pre>';
 
 
-    // change permissions
-
-   //  $permissions = new Google_Service_Drive_Permission(array(
-   //    'role' => 'reader',
-   //    'type' => 'anyone',
-   // ));
  
-   // try {
-   //    $r = $drive_service->permissions->create('1lzZEGPHuZc-3zbDWqalnqzIrJzPYs_Fb', $permissions);
-   //    print_r($r);
-   // } catch (Exception $e) {
-   //    $r = $e->getMessage();
-   //    print_r($r);
-
-   // }
  
 } else {
     $redirect_uri = 'http://localhost/drive/oauth2callback.php';
@@ -132,4 +158,9 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 
 
    
- 
+ function getParsedWritableFile($gdrivefile) {
+  $gdrivefile = new \Google_Service_Drive_DriveFile();//comment or delete, just here to check auto complete function names
+  $parsedFile = new \Google_Service_Drive_DriveFile();
+  $parsedFile->setContentRestrictions($gdrivefile->getContentRestrictions());
+  return $parsedFile;
+}

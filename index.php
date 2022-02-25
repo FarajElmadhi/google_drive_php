@@ -14,7 +14,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     $drive_service = new Google_Service_Drive($client);
 
     $files_list = $drive_service->files->listFiles(array(
-      'q'=>"parents in '" . '1nqS_PxVS02PDD_8F6bzqtMsjyRhE24Yf' . "'",
+      'q'=>"parents in '" . '1YKNN3YZxzCGBFh59CaNF3jMgVmhKIFcM' . "'",
       'fields' => 'files(id, name, webViewLink, webContentLink, mimeType, size)',
     'pageSize' => 1000,
    ));
@@ -82,6 +82,16 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 //          }
 //       }
 // //=========================================================//
+
+
+
+// //================== copy and delete old   file===================
+// $f = new Google_Service_Drive_DriveFile();
+// $copyFile = $drive_service->files->copy($file->getId(), $f);
+// $deletFile = $drive_service->files->delete($file->getId());
+
+// //=================================================
+
 
       array_push($result,[
          'id'=> $file->getId(),
